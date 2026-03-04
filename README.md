@@ -1,10 +1,40 @@
 # 🤖 OpenClaw Automation Suite
 
-> 基于 OpenClaw 的自动化工具集 - 打造你的 AI 个人助理
+> 基于 OpenClaw 的 AI 个人助理自动化工具集 | 打造你的智能生活
 
 [![OpenClaw](https://img.shields.io/badge/OpenClaw-v0.1.0+-blue.svg)](https://github.com/openclaw/openclaw)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Stars](https://img.shields.io/github/stars/your-username/openclaw-automation)](https://github.com/your-username/openclaw-automation/stargazers)
+
+## 👤 关于我
+
+一名专注于**自动化**和**AI 应用开发**的技术爱好者。
+
+- 🔧 擅长: Node.js / 脚本自动化 / AI Agent 开发
+- 🎯 目标: 用 AI 技术提升生活和工作效率
+- 📍 坐标: 中国
+- 📧 联系: [你的邮箱]
+
+### 🛠️ 技术栈
+
+| 分类 | 技术 |
+|------|------|
+| **语言** | JavaScript, Python, Bash |
+| **AI 框架** | OpenClaw, LangChain, OpenAI API |
+| **自动化** | Cron, Webhook, API 集成 |
+| **监控** | Prometheus, Grafana, 自研监控脚本 |
+| **部署** | Docker, Linux, Cloud Server |
+
+---
+
+## ✨ 项目亮点
+
+- 🏆 **完全自动化**: 无需人工干预，定时任务全自动执行
+- 🔔 **多通道通知**: 支持企业微信、Telegram、Discord、邮件等多种通知方式
+- 📊 **实时监控**: 存储、内存、API 状态实时监控告警
+- 🧠 **智能进化**: 内置 self-improving 机制，持续优化
+- 🎨 **多媒体支持**: TTS 语音合成、图片生成能力
+
 
 ## 📌 项目简介
 
