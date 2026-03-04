@@ -1,0 +1,26 @@
+# OpenClaw Cron 任务配置示例
+# 将此文件复制到 ~/.openclaw/crontab 并运行: crontab ~/.openclaw/crontab
+
+# 天气早报 - 每天早上 8 点
+0 8 * * * /root/.openclaw/workspace/scripts/morning_report.sh
+
+# 每小时复盘 - 每小时的第 30 分钟
+30 * * * * /root/.openclaw/workspace/scripts/hourly_review.sh
+
+# 晚间复盘 - 每天晚上 22 点
+0 22 * * * /root/.openclaw/workspace/scripts/evening_review.sh
+
+# 每周总结 - 每周日晚上 20 点
+0 20 * * 0 /root/.openclaw/workspace/scripts/weekly_review.sh
+
+# 系统监控 - 每小时检查一次
+0 * * * * /root/.openclaw/workspace/scripts/monitor.sh
+
+# 存储监控 - 每天凌晨 3 点
+0 3 * * * /root/.openclaw/workspace/scripts/check_storage.sh
+
+# 睡眠提醒 - 工作日晚上 23:30
+30 23 * * 1-5 /root/.openclaw/workspace/scripts/sleep_reminder.sh
+
+# 定时清理日志 - 每周日凌晨 4 点
+0 4 * * 0 find /root/.openclaw/logs -name "*.log" -mtime +7 -delete
