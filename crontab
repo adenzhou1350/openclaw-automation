@@ -4,8 +4,8 @@
 # 天气早报 - 每天早上 8 点
 0 8 * * * /root/.openclaw/workspace/scripts/morning_report.sh
 
-# 每小时复盘 - 每小时的第 30 分钟
-30 * * * * /root/.openclaw/workspace/scripts/hourly_review.sh
+# 每3小时复盘 - 每3小时的第 30 分钟
+30 */3 * * * /root/.openclaw/workspace/scripts/hourly_review.sh
 
 # 晚间复盘 - 每天晚上 22 点
 0 22 * * * /root/.openclaw/workspace/scripts/evening_review.sh
