@@ -5,7 +5,9 @@
 # 记录前三小时做了什么，和之前对比
 # ============================================
 
-REPORT_DIR="/root/.openclaw/workspace/memory/checkpoints"
+WORKSPACE="${OPENCLAW_WORKSPACE:-$HOME/.openclaw/workspace}"
+REPORT_DIR="$WORKSPACE/memory/checkpoints"
+mkdir -p "$REPORT_DIR"
 TIMESTAMP=$(date +%Y%m%d%H)
 REPORT_FILE="$REPORT_DIR/hourly_$TIMESTAMP.md"
 
@@ -23,9 +25,9 @@ echo "" >> "$REPORT_FILE"
 
 API_REMAIN="未知"
 API_USED="未知"
-if [ -f "/root/.openclaw/workspace/memory/api_status.md" ]; then
-    API_REMAIN=$(grep "剩余次数" /root/.openclaw/workspace/memory/api_status.md | sed 's/.*: *//')
-    API_USED=$(grep "已  用" /root/.openclaw/workspace/memory/api_status.md | sed 's/.*: *//')
+if [ -f "${WORKSPACE}/memory/api_status.md" ]; then
+    API_REMAIN=$(grep "剩余次数" ${WORKSPACE}/memory/api_status.md | sed 's/.*: *//')
+    API_USED=$(grep "已  用" ${WORKSPACE}/memory/api_status.md | sed 's/.*: *//')
     echo "- **API 已用**: $API_USED" >> "$REPORT_FILE"
     echo "- **API 剩余**: $API_REMAIN" >> "$REPORT_FILE"
 fi
@@ -42,7 +44,7 @@ echo "" >> "$REPORT_FILE"
 
 # 查找这3小时修改的文件
 HOUR_DIRTY=$(date -d "3 hours ago" +%Y-%m-%d\ %H:00)
-MODIFIED_FILES=$(find /root/.openclaw/workspace -name "*.sh" -newermt "$HOUR_DIRTY" 2>/dev/null | grep -v ".git" | head -10)
+MODIFIED_FILES=$(find ${WORKSPACE} -name "*.sh" -newermt "$HOUR_DIRTY" 2>/dev/null | grep -v ".git" | head -10)
 if [ -n "$MODIFIED_FILES" ]; then
     echo "### 📝 修改的文件" >> "$REPORT_FILE"
     for f in $MODIFIED_FILES; do
@@ -78,11 +80,11 @@ if [ -f "$PREV_REPORT" ]; then
     echo "### 🔄 相比3小时前" >> "$REPORT_FILE"
     
     # 统计文件变化
-    PREV_FILES=$(find /root/.openclaw/workspace -newermt "$HOUR_DIRTY" -name "*.sh" 2>/dev/null | wc -l)
+    PREV_FILES=$(find ${WORKSPACE} -newermt "$HOUR_DIRTY" -name "*.sh" 2>/dev/null | wc -l)
     echo "- 新增/修改文件: $PREV_FILES 个" >> "$REPORT_FILE"
     
     # 目标进度
-    TOTAL_NOW=$(grep -c "\[x\]" /root/.openclaw/workspace/GOALS.md 2>/dev/null || echo 0)
+    TOTAL_NOW=$(grep -c "\[x\]" ${WORKSPACE}/GOALS.md 2>/dev/null || echo 0)
     echo "- 当前已完成目标: $TOTAL_NOW 个" >> "$REPORT_FILE"
 else
     echo "- 暂无3小时前数据对比" >> "$REPORT_FILE"
@@ -94,20 +96,20 @@ echo "## 🎯 当前大目标" >> "$REPORT_FILE"
 echo "" >> "$REPORT_FILE"
 
 # 从 GOALS.md 获取
-if [ -f "/root/.openclaw/workspace/GOALS.md" ]; then
+if [ -f "${WORKSPACE}/GOALS.md" ]; then
     echo "### 📋 今日/本周目标" >> "$REPORT_FILE"
-    grep -E "^\- \[ \]" /root/.openclaw/workspace/GOALS.md 2>/dev/null | head -3 >> "$REPORT_FILE" || echo "- 暂无待处理目标" >> "$REPORT_FILE"
+    grep -E "^\- \[ \]" ${WORKSPACE}/GOALS.md 2>/dev/null | head -3 >> "$REPORT_FILE" || echo "- 暂无待处理目标" >> "$REPORT_FILE"
     echo "" >> "$REPORT_FILE"
     
     echo "### ✅ 最近完成" >> "$REPORT_FILE"
-    grep -E "^\- \[x\]" /root/.openclaw/workspace/GOALS.md 2>/dev/null | tail -3 >> "$REPORT_FILE" || echo "- 暂无已完成" >> "$REPORT_FILE"
+    grep -E "^\- \[x\]" ${WORKSPACE}/GOALS.md 2>/dev/null | tail -3 >> "$REPORT_FILE" || echo "- 暂无已完成" >> "$REPORT_FILE"
 fi
 echo "" >> "$REPORT_FILE"
 
 # ===== 5. 待处理任务 =====
 echo "## ⚠️ 需要你帮忙" >> "$REPORT_FILE"
 echo "" >> "$REPORT_FILE"
-grep -E "^\- \[ \]" /root/.openclaw/workspace/GOALS.md 2>/dev/null | head -3 >> "$REPORT_FILE" || echo "- 无待处理任务" >> "$REPORT_FILE"
+grep -E "^\- \[ \]" ${WORKSPACE}/GOALS.md 2>/dev/null | head -3 >> "$REPORT_FILE" || echo "- 无待处理任务" >> "$REPORT_FILE"
 echo "" >> "$REPORT_FILE"
 
 # ===== 6. 后台任务状态 =====
@@ -116,7 +118,7 @@ echo "" >> "$REPORT_FILE"
 
 echo "### ⏰ 最近执行的定时任务" >> "$REPORT_FILE"
 for task in monitor_light hourly_review cycle_check research_task; do
-    LAST_RUN=$(ls -lt /root/.openclaw/workspace/scripts/${task}.sh 2>/dev/null | awk '{print $6,$7,$8}')
+    LAST_RUN=$(ls -lt ${WORKSPACE}/scripts/${task}.sh 2>/dev/null | awk '{print $6,$7,$8}')
     if [ -n "$LAST_RUN" ]; then
         echo "- $task: $LAST_RUN" >> "$REPORT_FILE"
     fi

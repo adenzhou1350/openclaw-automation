@@ -2,9 +2,9 @@
 # OpenClaw 系统监控脚本
 # 用法: ./monitor.sh [--cpu|--mem|--disk]
 
-THRESHOLD_CPU=80
-THRESHOLD_MEM=85
-THRESHOLD_DISK=90
+THRESHOLD_CPU="${THRESHOLD_CPU:-80}"
+THRESHOLD_MEM="${THRESHOLD_MEM:-85}"
+THRESHOLD_DISK="${THRESHOLD_DISK:-90}"
 
 check_cpu() {
     CPU_USAGE=$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1}')

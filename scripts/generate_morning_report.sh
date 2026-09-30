@@ -2,7 +2,11 @@
 # OpenClaw 天气早报生成脚本
 # 用法: ./generate_morning_report.sh
 
-source /root/.openclaw/workspace/.env 2>/dev/null || true
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ENV_FILE="${OPENCLAW_ENV_FILE:-$SCRIPT_DIR/../.env}"
+if [ -f "$ENV_FILE" ]; then
+    source "$ENV_FILE"
+fi
 
 CITY="${CITY:-北京}"
 DATE=$(date "+%Y年%m月%d日 %A")
